@@ -27,12 +27,12 @@ router.get("/", (req,res)=>{
 				if(percent>50){
 					if(call_option_price>put_option_price){
 						console.log("alert sent");
-						axios.post(process.env.SLACK_WEBHOOK_URL,{text:"Rise alert "+percent});
+						axios.post("https://hooks.slack.com/services/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",payload={"text": "A very important thing has occurred! <https://alert-system.com/alerts/1234|Click here> for details!"});
 
 					}
 					else{
 						console.log("alert sent");
-						axios.post(process.env.SLACK_WEBHOOK_URL,{text:"Fall alert "+percent});
+						axios.post("https://hooks.slack.com/services/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",payload={"text": "A very important thing has occurred! <https://alert-system.com/alerts/1234|Click here> for details!"});
 					}
 				}
 			}
@@ -40,9 +40,7 @@ router.get("/", (req,res)=>{
 		})
 
 	})
-	.then(less=>{
-		res.send(less);
-	})
+	res.sendStatus(200);
 	
 })
 
