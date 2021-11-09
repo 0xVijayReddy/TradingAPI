@@ -23,6 +23,7 @@ router.get("/",async (req,res)=>{
 			if(prices[0].status){
 				const call_option_price = prices[0].data.data.ltp;
 				const put_option_price = prices[1].data.data.ltp;
+				res.send({call:call_option_price,put:put_option_price});
 				const percent = Math.round((Math.min(call_option_price,put_option_price)/Math.max(call_option_price,put_option_price))*100);
 				if(percent>50){
 					if(call_option_price>put_option_price){
@@ -39,7 +40,6 @@ router.get("/",async (req,res)=>{
 		})
 
 	})
-	res.send(process.env.SLACK_WEBHOOK_URL);
 	
 })
 
