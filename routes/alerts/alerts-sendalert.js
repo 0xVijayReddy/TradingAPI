@@ -39,7 +39,7 @@ router.get("/",async (req,res)=>{
 		})
 
 	})
-	res.sendStatus(200);
+	res.send(process.env.SLACK_WEBHOOK_URL);
 	
 })
 
