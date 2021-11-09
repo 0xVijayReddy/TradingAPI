@@ -46,6 +46,15 @@ router.get("/", (req,res)=>{
 	
 })
 
+router.get("/test",(req,res)=>{
+	axios.post(req.query.url,{text:"Rise alert "})
+	.then(_=>{
+		res.sendStatus(200);
+	})
+
+
+});
+
 
 
 
