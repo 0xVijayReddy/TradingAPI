@@ -40,8 +40,8 @@ router.get("/", (req,res)=>{
 		})
 
 	})
-	.then(_=>{
-		res.sendStatus(200);
+	.then(less=>{
+		res.send(less);
 	})
 	
 })
