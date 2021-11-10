@@ -54,10 +54,10 @@ sendAlert = (prices)=>{
 	const percent = Math.round((Math.min(call_option_price,put_option_price)/Math.max(call_option_price,put_option_price))*100);
 	if(percent<50){
 		if(call_option_price>put_option_price){
-			axios.post(process.env.SLACK_WEBHOOK_URL,payload={"text": `Adjust PE\n PE:${put_option_price} \n CE:${call_option_price} \n <https://www.google.com|Adjust here>`});
+			axios.post(process.env.SLACK_WEBHOOK_URL,payload={"text": `Adjust PE\nPE:₹${put_option_price} \nCE:₹${call_option_price}\nPercent:${percent}%\n<https://www.google.com|Adjust here>`});
 		}
 		else{
-			axios.post(process.env.SLACK_WEBHOOK_URL,payload={"text": `Adjust CE\n CE:${call_option_price} \n PE:${put_option_price} \n <https://www.google.com|Adjust here>`});
+			axios.post(process.env.SLACK_WEBHOOK_URL,payload={"text": `Adjust CE\nCE:₹${call_option_price} \nPE:₹${put_option_price}\nPercent:${percent}%\n<https://www.google.com|Adjust here>`});
 		}
 	}
 
