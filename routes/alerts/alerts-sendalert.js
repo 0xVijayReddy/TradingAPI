@@ -24,7 +24,8 @@ router.get("/", (req,res)=>{
 				const call_option_price = prices[0].data.data.ltp;
 				const put_option_price = prices[1].data.data.ltp;
 				const percent = Math.round((Math.min(call_option_price,put_option_price)/Math.max(call_option_price,put_option_price))*100);
-				if(percent>50){
+				console.log(call_option_price,put_option_price,percent);
+				if(percent<50){
 					if(call_option_price>put_option_price){
 						console.log("alert sent");
 						axios.post(process.env.SLACK_WEBHOOK_URL,payload={"text": "A very important thing has occurred! <https://alert-system.com/alerts/1234|Click here> for details!"});
