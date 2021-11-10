@@ -27,10 +27,7 @@ router.get("/", (req,res)=>{
 			if(prices[0].message=="Invalid Token")
 				throw new Error('TokenError');
 			throw new Error('APIError');
-
 		}
-
-			throw new Error('API_ERROR');
 		funcs.sendAlert(prices);		
 	})
 	.catch(error=>{
@@ -39,9 +36,9 @@ router.get("/", (req,res)=>{
 				token=response.data.data.jwtToken;
 			})
 		}
-		else{
-			axios.post(process.env.SLACK_WEBHOOK_URL,payload={"text":error});
-		}
+		// else{
+		// 	axios.post(process.env.SLACK_WEBHOOK_URL,payload={"text":error});
+		// }
 
 	})
 	res.sendStatus(200);
