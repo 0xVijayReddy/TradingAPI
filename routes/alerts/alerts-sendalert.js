@@ -36,9 +36,9 @@ router.get("/", (req,res)=>{
 				token=response.data.data.jwtToken;
 			})
 		}
-		// else{
-		// 	axios.post(process.env.SLACK_WEBHOOK_URL,payload={"text":error});
-		// }
+		else{
+			axios.post(process.env.SLACK_WEBHOOK_URL,payload={"text":"Unknown error occured"});
+		}
 
 	})
 	res.sendStatus(200);
