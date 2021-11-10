@@ -15,49 +15,37 @@ router.get("/", (req,res)=>{
 		data = data.map(pos=>({exchange:"NFO",tradingsymbol:pos.symbol,symboltoken:pos.token}));
 		return data;
 	})
-	.then(data=>{
-		const request1 = axios(funcs.getConfig(token,data[0]));
-		const request2 = axios(funcs.getConfig(token,data[1]));
-		axios.all([request1,request2])
-		.then(prices=>{
-			if(prices[0].status){
-				const call_option_price = prices[0].data.data.ltp;
-				const put_option_price = prices[1].data.data.ltp;
-				const percent = Math.round((Math.min(call_option_price,put_option_price)/Math.max(call_option_price,put_option_price))*100);
-				console.log(call_option_price,put_option_price,percent);
-				if(percent<50){
-					if(call_option_price>put_option_price){
-						console.log("alert sent");
-						axios.post(process.env.SLACK_WEBHOOK_URL,payload={"text": "A very important thing has occurred! <https://alert-system.com/alerts/1234|Click here> for details!"});
+	.then(positions_data=>{
+		if(!positions_data)
+			throw new Error('Positions Data Not Found');
+		const request1 = axios(funcs.getConfig(token,positions_data[0]));
+		const request2 = axios(funcs.getConfig(token,positions_data[1]));
+		return axios.all([request1,request2])
+	})
+	.then(prices=>{
+		if(!prices[0].status){
+			if(prices[0].message=="Invalid Token")
+				throw new Error('TokenError');
+			throw new Error('APIError');
 
-					}
-					else{
-						console.log("alert sent");
-						axios.post(process.env.SLACK_WEBHOOK_URL,payload={"text": "A very important thing has occurred! <https://alert-system.com/alerts/1234|Click here> for details!"});
-					}
-				}
-			}
-			
-		})
+		}
+
+			throw new Error('API_ERROR');
+		funcs.sendAlert(prices);		
+	})
+	.catch(error=>{
+		if(error=="TokenError"){
+			funcs.getNewToken().then(response=>{
+				token=response.data.data.jwtToken;
+			})
+		}
+		else{
+			axios.post(process.env.SLACK_WEBHOOK_URL,payload={"text":error});
+		}
 
 	})
 	res.sendStatus(200);
 	
 })
-
-router.get("/test",(req,res)=>{
-	axios.post(req.query.url,{text:"Rise alert "})
-	.then(_=>{
-		res.sendStatus(200);
-	})
-
-
-});
-
-
-
-
-
-
 
 module.exports = router;
