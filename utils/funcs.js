@@ -49,6 +49,7 @@ getConfig = (token,data)=>{
 }
 
 sendAlert = (prices)=>{
+	const date = new Date();
 	const call_option_price = prices[0].data.data.ltp;
 	const put_option_price = prices[1].data.data.ltp;
 	const percent = Math.round((Math.min(call_option_price,put_option_price)/Math.max(call_option_price,put_option_price))*100);

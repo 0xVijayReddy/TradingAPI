@@ -9,6 +9,7 @@ funcs.getNewToken().then(response=>{
 
 
 router.get("/", (req,res)=>{
+	const date = new Date();
 	models.Position.find()
 	.sort({option_type:1})
 	.then(data=>{
@@ -41,7 +42,7 @@ router.get("/", (req,res)=>{
 		}
 
 	})
-	res.sendStatus(200);
+	res.send("Hour "+date.getHours());
 	
 })
 
