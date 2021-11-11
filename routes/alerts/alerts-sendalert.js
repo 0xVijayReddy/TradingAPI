@@ -42,7 +42,7 @@ router.get("/", (req,res)=>{
 		}
 
 	})
-	res.send("Hour "+date.getHours());
+	res.send(date.getMinutes()+" Hour "+date.getHours());
 	
 })
 
