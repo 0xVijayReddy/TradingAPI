@@ -55,6 +55,7 @@ sendAlert = (prices)=>{
 	const call_option_price = prices[0].data.data.ltp;
 	const put_option_price = prices[1].data.data.ltp;
 	const percent = Math.round((Math.min(call_option_price,put_option_price)/Math.max(call_option_price,put_option_price))*100);
+	console.log(call_option_price,put_option_price);
 	if(percent<50){
 		if(call_option_price>put_option_price){
 			axios.post(process.env.SLACK_WEBHOOK_URL,payload={"text": `Adjust PE\nPE: ₹${put_option_price} \nCE: ₹${call_option_price}\nPercent: ${percent}%\n<https://www.google.com|Adjust here>`});
